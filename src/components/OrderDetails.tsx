@@ -28,8 +28,10 @@ const OrderDetails = () => {
         <div>
           <div className="grid grid-cols-7 uppercase text-sm font-medium py-2 border-b-[1px] border-b-gray-300">
             <p className="col-span-4">Items</p>
-            <p className="flex items-center justify-center">Quantity</p>
-            <p className="flex items-center justify-center">Unit Price</p>
+            <p className="flex items-center justify-center hidden sm:block">Quantity</p>
+            <p className="flex items-center justify-center block sm:hidden">Qty.</p>
+            <p className="flex items-center justify-center hidden sm:block">Unit Price</p>
+            <p className="flex items-center justify-center block sm:hidden">Per Unit</p>
             <p className="flex items-center justify-center">Amount</p>
           </div>
           <div className="py-2 flex flex-col justify-center gap-2">
@@ -50,7 +52,7 @@ const OrderDetails = () => {
                     <h3 className="text-base font-semibold mb-.5">
                       {item?.title}
                     </h3>
-                    <p>{item?.description}</p>
+                    <p className="hidden sm:block">{item?.description}</p>
                   </div>
                 </div>
                 <p className="flex items-center justify-center">
@@ -76,7 +78,7 @@ const OrderDetails = () => {
           </p>
           <button
             onClick={() => dispatch(resetOrder())}
-            className="mt-5 border-[1px] border-gray-500 py-1 px-4 font-medium rounded-md hover:border-orange-600 cursor-pointer duration-200"
+            className="text-white bg-red-500 hover:bg-red-700 mt-5 border-[1px] py-1 px-4 font-medium rounded-md hover:border-orange-600 cursor-pointer duration-200"
           >
             Reset Order
           </button>

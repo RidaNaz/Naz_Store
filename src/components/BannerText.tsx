@@ -7,13 +7,13 @@ interface Props {
 
 const BannerText = ({ title }: Props) => {
   return (
-    <div className="hidden lg:inline-block absolute top-0 left-0 w-full h-full pl-12">
+    <div className="hidden md:inline-block absolute top-0 left-0 w-full h-full pl-12">
       <Container className="flex h-full flex-col gap-y-6 justify-center">
         <motion.h2
           initial={{ y: 30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="text-7xl font-bold text-white"
+          className="lg:text-7xl font-bold text-white md:text-5xl"
         >
           {title}
         </motion.h2>

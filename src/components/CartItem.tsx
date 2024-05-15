@@ -28,12 +28,12 @@ const CartItem = () => {
                 {productData?.map((item: IProduct) => (
                     <div
                         key={item.id}
-                        className="w-full bg-gray-300 p-4 flex flex-col md:flex-row items-center justify-between gap-4"
+                        className="w-full bg-white p-4 flex flex-col md:flex-row items-center justify-between gap-4"
                     >
                         <div className="flex items-center gap-x-3 w-full md:w-1/3">
                             <span
                                 onClick={() => dispatch(deleteProduct(item?.id))}
-                                className="text-lg hover:text-red-600 cursor-pointer duration-200"
+                                className="text-lg hover:text-red-800 cursor-pointer duration-200"
                             >
                                 <AiOutlineClose />
                             </span>

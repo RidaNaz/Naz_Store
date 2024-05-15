@@ -61,52 +61,54 @@ const Header = () => {
           />
         </div>
         {/* Cart button */}
+        <div className="hidden sm:block">
         <Link href={"/cart"}>
-          <div className="bg-black hover:bg-slate-950 rounded-full text-slate-100 hover:text-white flex items-center justify-center gap-x-1 px-3 py-1.5 border-[1px] border-black hover:border-orange-600 duration-200 relative">
-            <IoMdCart className="text-xl" />
+          <div className="bg-white hover:bg-darkText rounded-full text-black hover:text-white flex items-center justify-center gap-x-1 px-3 py-1.5 border-[1px] border-orange-600 hover:border-white duration-200 relative">
             <p className="text-sm font-semibold">
               <FormattedPrice amount={totalAmt ? totalAmt : 0} />
             </p>
-            <span className="bg-white text-orange-600 rounded-full text-xs font-semibold absolute -right-2 -top-1 w-5 h-5 flex items-center justify-center shadow-xl shadow-black">
+            <IoMdCart className="text-xl" />
+            <span className="bg-white text-orange-600 rounded-full text-xs font-semibold absolute -right-2 -top-1 w-5 h-5 flex items-center justify-center shadow-xl shadow-black border-[0.2px] border-orange-600">
               {productData ? productData?.length : 0}
             </span>
           </div>
         </Link>
+        </div>
         {/* Login/Register */}
         {!session && (
-          <div onClick={() => signIn()} className="headerDiv cursor-pointer">
+          <div onClick={() => signIn()} className="headerDiv cursor-pointer bg-orange-600 text-white hover:text-darkText">
             <AiOutlineUser className="text-2xl" />
             <p className="text-sm font-semibold">Login</p>
           </div>
+        )}
+        {/* Order button */}
+        {orderData?.order?.length > 0 && session && (
+          <Link
+            href={"/order"}
+            className="headerDiv px-2 gap-x-1 cursor-pointer bg-orange-600 text-white hover:text-darkText"
+          >
+            <BsBookmarks className="text-xl" />
+            {/* <p className="text-sm font-semibold">Orders</p> */}
+          </Link>
         )}
         {/* user Image */}
         {session && (
           <Image
             src={session?.user?.image as string}
             alt="user image"
-            width={40}
-            height={40}
-            className="rounded-full object-cover"
+            width={45}
+            height={45}
+            className="rounded-full object-cover "
           />
-        )}
-        {/* Order button */}
-        {orderData?.order?.length > 0 && session && (
-          <Link
-            href={"/order"}
-            className="headerDiv px-2 gap-x-1 cursor-pointer"
-          >
-            <BsBookmarks className="text-2xl" />
-            <p className="text-sm font-semibold">Orders</p>
-          </Link>
         )}
         {/* Logout button */}
         {session && (
           <div
             onClick={() => signOut()}
-            className="headerDiv px-2 gap-x-1 cursor-pointer bg-orange-500"
+            className="headerDiv px-1 gap-x-1 cursor-pointer text-white hover:text-darkText bg-orange-600 hover:bg-white"
           >
-            {/* <FiLogOut className="text-2xl" /> */}
-            <p className="text-sm font-semibold text-white">Logout</p>
+            <FiLogOut className="text-sm" />
+            {/* <p className="text-sm font-semibold text-white hover:text-darkText">Logout</p> */}
           </div>
         )}
       </Container>

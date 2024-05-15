@@ -79,13 +79,13 @@ const PaymentForm = () => {
       {userInfo ? (
         <button
           onClick={handleCheckout}
-          className="bg-black text-slate-100 mt-4 py-3 px-6 hover:bg-orange-950 cursor-pointer duration-200"
+          className="font-bold bg-darkText text-slate-100 mt-4 py-3 px-6 hover:bg-green-950 cursor-pointer duration-200"
         >
           Proceed to checkout
         </button>
       ) : (
         <div>
-          <button className="bg-black text-slate-100 mt-4 py-3 px-6 hover:bg-orange-950 cursor-not-allowed duration-200">
+          <button className="bg-darkText text-slate-100 mt-4 py-3 px-6 hover:bg-red-700 cursor-not-allowed duration-200 font-bold">
             Proceed to checkout
           </button>
           <p className="text-base mt-1 text-red-500 font-semibold animate-bounce">

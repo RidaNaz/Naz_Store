@@ -15,7 +15,7 @@ const CartPage = () => {
     <Container>
       {productData.length > 0 ? (
         <Container>
-          <h2 className="font-bold text-4xl mb-2 font-logo">Cart</h2>
+          <h2 className="font-bold text-5xl -mt-8 mb-2 font-logo text-orange-600">Cart</h2>
           <div className="flex flex-col gap-5">
             <CartItem />
             <div className="flex items-center justify-end">
@@ -31,12 +31,12 @@ const CartPage = () => {
           </div>
         </Container>
       ) : (
-        <div className="flex flex-col gap-y-6 items-center justify-center bg-white h-96 px-4">
+        <div className="flex flex-col gap-y-6 items-center justify-center bg-white h-80 px-4">
           <p className="border-[1px] border-orange-600 w-full p-2 text-center">
             Your product cart is currently empty
           </p>
           <Link href={"/"}>
-            <button className="bg-darkText text-white py-2 px-6 rounded-md hover:bg-orange-600 duration-200">
+            <button className="bg-darkText font-bold text-white py-2 px-6 rounded-md hover:bg-orange-600 duration-200">
               Return to Shop
             </button>
           </Link>

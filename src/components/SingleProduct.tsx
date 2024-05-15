@@ -47,17 +47,13 @@ const SingleProduct = ({ product }: any) => {
           }
           className="flex items-center cursor-pointer group"
         >
-          <button className="bg-darkText text-slate-100 px-6 py-3 text-sm uppercase flex items-center border-r-[1px] border-r-slate-500">
+          <button className="bg-darkText text-slate-100 px-6 py-3 text-sm uppercase flex items-center border-r-[1px] border-r-slate-500 font-bold">
             add to cart
           </button>
-          <span className="bg-darkText text-xl text-slate-100 w-12 flex items-center justify-center group-hover:bg-orange-500 duration-200 py-3">
+          <span className="bg-darkText text-xl text-slate-100 w-12 flex items-center justify-center group-hover:bg-orange-600 duration-200 py-3">
             <IoMdCart />
           </span>
         </div>
-        <p className="flex items-center gap-x-2 text-sm">
-          <MdFavoriteBorder className="text-xl" />
-          Add to wishlist
-        </p>
       </div>
       <Toaster />
     </div>

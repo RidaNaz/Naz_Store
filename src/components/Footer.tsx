@@ -17,7 +17,7 @@ const Footer = () => {
   return (
     <div className="w-full bg-darkText text-slate-100">
       <Container className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-        <div className="flex flex-col col-span-2 gap-y-4">
+        <div className="flex flex-row justify-center gap-8 sm:flex-col col-span-2 gap-y-4">
           <Image
             src="/Rida logo.svg"
             alt="logo"
@@ -25,7 +25,7 @@ const Footer = () => {
             height={40}
             className="cursor-pointer hover:animate-slowspin"
           />
-          <p>
+          <p className="hidden sm:block">
           As a skilled web developer and With a passion for building innovative and user-friendly digital experiences, I craft websites and applications that engage and inspire. Proficient in a range of programming languages and technologies, I stay up-to-date with industry trends to deliver cutting-edge solutions.
           </p>
           <div className="flex items-center gap-x-4">
@@ -57,7 +57,7 @@ const Footer = () => {
           </div>
         </div>
         <div>
-          <p className="text-lg font-bold underline mb-4">Projects</p>
+          <p className="text-xl font-bold underline mb-4">Projects</p>
           <ul className="text-sm font-light mt-2 flex flex-col gap-y-2">
             <Link href="https://rida-portfolio-virid.vercel.app/" target="_blank">
             <li className="flex flex-col">
@@ -85,9 +85,9 @@ const Footer = () => {
             </Link>
           </ul>
         </div>
-        <div className="-mr-7">
-          <p className="text-lg font-bold underline mb-4">Links</p>
-          <ul className="text-base font-medium mt-2 flex flex-col gap-y-2">
+        <div >
+          <p className="text-xl font-bold underline mb-4 ">Links</p>
+          <ul className="text-lg font-medium mt-2 flex flex-col gap-y-2">
             <Link href={"/"}>
               <li className="hover:text-orange-500 cursor-pointer duration-200">
                 Home
@@ -111,7 +111,7 @@ const Footer = () => {
           </ul>
         </div>
         <div className="items-center">
-        <p className="text-lg font-bold underline mb-4">Pay</p>
+        <p className="text-2xl font-bold underline mb-4">Pay</p>
           <p className="text-lg mb-2">with your trusted services</p>
           <Image
             src={payment}
