@@ -5,7 +5,7 @@ import React from "react";
 const SuccessPage = () => {
     return (
         <Container className="flex items-center justify-center py-20">
-            <div className="min-h-[400px] flex flex-col items-center justify-center gap-y-5">
+            <div className="min-h-[400px] flex flex-col items-center justify-center gap-y-5 mx-3">
                 <h2 className="text-4xl font-bold text-orange-600">
                     Your Payment Accepted by <span className="font-logo">naz_Store.</span>
                 </h2>

@@ -20,7 +20,7 @@ const Header = () => {
   const { productData, orderData } = useSelector(
     (state: StateProps) => state.shopping
   );
-  console.log (orderData)
+  console.log(orderData)
 
   useEffect(() => {
     if (session) {
@@ -61,18 +61,18 @@ const Header = () => {
           />
         </div>
         {/* Cart button */}
-        <div className="hidden sm:block">
-        <Link href={"/cart"}>
-          <div className="bg-white hover:bg-darkText rounded-full text-black hover:text-white flex items-center justify-center gap-x-1 px-3 py-1.5 border-[1px] border-orange-600 hover:border-white duration-200 relative">
-            <p className="text-sm font-semibold">
-              <FormattedPrice amount={totalAmt ? totalAmt : 0} />
-            </p>
-            <IoMdCart className="text-xl" />
-            <span className="bg-white text-orange-600 rounded-full text-xs font-semibold absolute -right-2 -top-1 w-5 h-5 flex items-center justify-center shadow-xl shadow-black border-[0.2px] border-orange-600">
-              {productData ? productData?.length : 0}
-            </span>
-          </div>
-        </Link>
+        <div>
+          <Link href={"/cart"}>
+            <div className="bg-white hover:bg-darkText rounded-full text-black hover:text-white flex items-center justify-center gap-x-1 px-3 py-1.5 border-[1px] border-orange-600 hover:border-white duration-200 relative">
+              <p className="text-sm font-semibold">
+                <FormattedPrice amount={totalAmt ? totalAmt : 0} />
+              </p>
+              <IoMdCart className="text-xl" />
+              <span className="bg-white text-orange-600 rounded-full text-xs font-semibold absolute -right-2 -top-1 w-5 h-5 flex items-center justify-center shadow-xl shadow-black border-[0.2px] border-orange-600">
+                {productData ? productData?.length : 0}
+              </span>
+            </div>
+          </Link>
         </div>
         {/* Login/Register */}
         {!session && (

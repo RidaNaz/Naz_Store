@@ -47,7 +47,7 @@ const CartItem = () => {
                             />
                         </div>
                         {/* quantity */}
-                        <div className="flex items-center justify-start gap-x-3 border-[1px] border-slate-300 py-2 px-4 w-full md:w-auto">
+                        <div className="flex items-center justify-center gap-x-3 border-[1px] border-slate-300 py-2 px-4 w-full md:w-auto">
                             <p>Quantity</p>
                             <div className="flex items-center text-lg w-20 justify-between">
                                 <span

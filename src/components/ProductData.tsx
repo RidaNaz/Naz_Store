@@ -12,7 +12,7 @@ import { addToCart } from "@/redux/shoppingSlice";
 import toast, { Toaster } from "react-hot-toast";
 
 const ProductsData = ({ item }: ItemProps) => {
-      const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const startArray = Array.from({ length: item?.rating }, (_, index) => (
         <span key={index} className="text-yellow-400">
             <IoIosStar />
