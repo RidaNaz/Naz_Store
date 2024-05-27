@@ -5,7 +5,7 @@ import ProductsData from "@/components/ProductData";
 import SingleProduct from "@/components/SingleProduct";
 
 
-const ProuctsPage = async (props: any) => {
+const ProductsPage = async (props: any) => {
   const _idString = props.params.product_id;
   const _id = Number(_idString);
   const product = await getSingleProduct(_id);
@@ -28,4 +28,4 @@ const ProuctsPage = async (props: any) => {
   );
 };
 
-export default ProuctsPage;
+export default ProductsPage;

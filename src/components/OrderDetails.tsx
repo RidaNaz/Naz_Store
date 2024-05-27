@@ -7,6 +7,7 @@ import FormattedPrice from "./FormattedPrice";
 import { resetOrder } from "@/redux/shoppingSlice";
 import Link from "next/link";
 import { urlForImage } from "../../sanity/lib/image";
+import { Button } from "./ui/button";
 
 const OrderDetails = () => {
   const dispatch = useDispatch();
@@ -76,12 +77,12 @@ const OrderDetails = () => {
               <FormattedPrice amount={totalAmount} />
             </span>
           </p>
-          <button
+          <Button
             onClick={() => dispatch(resetOrder())}
             className="text-white bg-red-500 hover:bg-red-700 mt-5 border-[1px] py-1 px-4 font-medium rounded-md hover:border-orange-600 cursor-pointer duration-200"
           >
             Reset Order
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="py-14 bg-white text-black text-2xl text-center">

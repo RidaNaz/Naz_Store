@@ -3,14 +3,46 @@
 import Image from "next/image";
 import FormattedPrice from "./FormattedPrice";
 import { IoMdCart } from "react-icons/io";
-import { MdFavoriteBorder } from "react-icons/md";
 import { urlForImage } from "../../sanity/lib/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/shoppingSlice";
 import toast, { Toaster } from "react-hot-toast";
+import { StateProps } from "@/type";
+import { ItemProps } from "../type";
 
 const SingleProduct = ({ product }: any) => {
   const dispatch = useDispatch();
+
+  const { userInfo }: any = useSelector(
+    (state: StateProps) => state.shopping
+  );
+  const handleAddToCart = async () => {
+    try {
+      const res = await fetch("/api/postgres", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          product_id: product?.id,
+          user_id: userInfo ? userInfo.unique_id : "Anonymous",
+        })
+      });
+      const result = await res.json();
+      console.log(result);
+
+      if (res.ok) {
+        dispatch(addToCart(product));
+        toast.success(`${product?.title.substring(0, 15)} added successfully!`);
+      } else {
+        toast.error("Failed to add item to cart.");
+      }
+    } catch (error) {
+      console.log("Error adding to cart:", error);
+      toast.error("An error occurred while adding item to cart.");
+    }
+  };
+
   return (
     <div className="grid lg:grid-cols-2 gap-5 bg-white p-4 rounded-lg">
       <div>
@@ -39,16 +71,11 @@ const SingleProduct = ({ product }: any) => {
           </span>
         </div>
         <div
-          onClick={() =>
-            dispatch(addToCart(product)) &&
-            toast.success(
-              `${product?.title.substring(0, 15)} added successfully!`
-            )
-          }
+          onClick={handleAddToCart}
           className="flex items-center cursor-pointer group"
         >
-          <button className="bg-darkText text-slate-100 px-6 py-3 text-sm uppercase flex items-center border-r-[1px] border-r-slate-500 font-bold">
-            add to cart
+          <button className="bg-darkText text-slate-100 px-6 py-3 text-sm uppercase flex items-center border-r-[1px] border-r-slate-500 font-bold" >
+            Add to cart
           </button>
           <span className="bg-darkText text-xl text-slate-100 w-12 flex items-center justify-center group-hover:bg-orange-600 duration-200 py-3">
             <IoMdCart />

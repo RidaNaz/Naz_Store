@@ -25,4 +25,7 @@ export interface Product {
         order: Product[];
       };
     };
+    user: {
+      userId: null | string | number,
+    }
   }

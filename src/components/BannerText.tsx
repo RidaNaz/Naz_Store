@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Container from "./Container";
 import { motion } from "framer-motion";
 
@@ -35,8 +36,11 @@ const BannerText = ({ title }: Props) => {
           <button className="py-3 px-6 rounded-full text-white hover:text-zinc-700 bg-zinc-700 hover:bg-white duration-200 text-sm uppercase font-semibold">
             Find out more
           </button>
-          <button className="py-3 px-6 rounded-full text-white hover:text-zinc-700 bg-zinc-700 hover:bg-white duration-200 text-sm uppercase font-semibold">
+          <button
+          className="py-3 px-6 rounded-full text-white hover:text-zinc-700 bg-zinc-700 hover:bg-white duration-200 text-sm uppercase font-semibold">
+            <Link href="#products">
             Shop Now
+            </Link>
           </button>
         </motion.div>
       </Container>

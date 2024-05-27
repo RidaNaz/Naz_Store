@@ -1,9 +1,10 @@
-import type { NextAuthOptions } from "next-auth";
+import type { ISODateString, NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const options: NextAuthOptions = {
+
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID!,
@@ -28,7 +29,7 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        const user = { id: "1001", name: "Rida", password: "rida" };
+        const user = { id: "1001", name: "Rida Naz", password: "ridanaz" };
         if (
           credentials?.username === user.name &&
           credentials?.password === user.password
@@ -40,4 +41,29 @@ export const options: NextAuthOptions = {
       },
     }),
   ],
+
+  callbacks: {
+    async session({ session, token }) {
+      // Add user ID to session
+
+      interface Session {
+        user?: {
+          name?: string | null
+          email?: string | null
+          image?: string | null
+          unique_id?: string | null
+        }
+        expires: ISODateString
+      }
+
+      let sessionToReturn: Session = {
+        user: {
+          ...session?.user,
+          unique_id: token.sub
+        },
+        expires: session?.expires
+      }
+      return sessionToReturn;
+    },
+  },
 };

@@ -1,9 +1,17 @@
 import { Product } from "@/type";
 import { createSlice } from "@reduxjs/toolkit";
 
+
+interface User {
+  name: string
+  email: string
+  image: string
+  unique_id: number
+}
+
 interface StoreState {
   productData: Product[];
-  userInfo: null | string;
+  userInfo: null | User;
   orderData: [];
 }
 
@@ -63,6 +71,9 @@ export const shoppingSlice = createSlice({
     resetOrder: (state) => {
       state.orderData = [];
     },
+    // setCartData: (state, action) => {
+    //   state.productData = action.payload;
+    // },
   },
 });
 
@@ -76,5 +87,6 @@ export const {
   deleteUser,
   saveOrder,
   resetOrder,
+  // setCartData,
 } = shoppingSlice.actions;
 export default shoppingSlice.reducer;

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useSession } from "next-auth/react";
 import { resetCart, saveOrder } from "@/redux/shoppingSlice";
+import { Button } from "./ui/button";
 
 const PaymentForm = () => {
   const dispatch = useDispatch();
@@ -17,9 +18,10 @@ const PaymentForm = () => {
   useEffect(() => {
     let amt = 0;
     productData.map((item: Product) => {
-      amt += item.price * item.quantity;
+      if (item.price) {
+      amt += (item.price || 0) * (item.quantity || 0);
       return;
-    });
+    }});
     setTotalAmt(amt);
   }, [productData]);
 
@@ -77,17 +79,18 @@ const PaymentForm = () => {
         </div>
       </div>
       {userInfo ? (
-        <button
+        <Button
+          variant="default"
           onClick={handleCheckout}
           className="font-bold bg-darkText text-slate-100 mt-4 py-3 px-6 hover:bg-green-950 cursor-pointer duration-200"
         >
           Proceed to checkout
-        </button>
+        </Button>
       ) : (
         <div>
-          <button className="bg-darkText text-slate-100 mt-4 py-3 px-6 hover:bg-red-700 cursor-not-allowed duration-200 font-bold">
+          <Button variant="destructive" className="bg-darkText text-slate-100 mt-4 py-3 px-6 hover:bg-red-700 cursor-not-allowed duration-200 font-bold">
             Proceed to checkout
-          </button>
+          </Button>
           <p className="text-base mt-1 text-red-500 font-semibold animate-bounce">
             Please login to continue
           </p>

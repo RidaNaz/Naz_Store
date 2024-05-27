@@ -1,36 +1,71 @@
 "use client";
 
 import Image from "next/image";
-import { ItemProps } from "../type";
+import { ItemProps, StateProps } from "../type";
 import { calculatePercentage } from "@/helpers";
 import FormattedPrice from "./FormattedPrice";
 import { IoIosStar } from "react-icons/io";
 import Link from "next/link";
 import { urlForImage } from "../../sanity/lib/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/shoppingSlice";
 import toast, { Toaster } from "react-hot-toast";
+import { setUserId } from "@/redux/userSlice";
+import { useSession } from "next-auth/react";
 
 const ProductsData = ({ item }: ItemProps) => {
     const dispatch = useDispatch();
+    const { data: session } = useSession();
+
     const startArray = Array.from({ length: item?.rating }, (_, index) => (
         <span key={index} className="text-yellow-400">
             <IoIosStar />
         </span>
     ));
 
+    const { userInfo }: any = useSelector(
+        (state: StateProps) => state.shopping
+    );
+    const handleAddToCart = async () => {
+        try {
+            const res = await fetch("/api/postgres", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    product_id: item.id, 
+                    user_id: userInfo ? userInfo.unique_id : "Anonymous",
+                })
+            });
+            const result = await res.json();
+            console.log(result);
+
+                if (res.ok) {
+                    dispatch(addToCart(item));
+                    toast.success(`${item?.title.substring(0, 15)} added successfully!`);
+                } else {
+                    toast.error("Failed to add item to cart.");
+                }
+        } catch (error) {
+            console.log("Error adding to cart:", error);
+            toast.error("An error occurred while adding item to cart.");
+        }
+    };
+
     return (
         <div className="w-full rounded-lg overflow-hidden">
             <div>
                 <Link href={{ pathname: `/product/${item?.id}` }}>
                     <div className="w-full h-96 group overflow-hidden relative">
-                        {item.image ? (<Image
-                            src={urlForImage(item.image).url()}
+                        {item.image && (
+                        <Image
+                            src={urlForImage(item?.image).url()}
                             alt="product image"
                             width={500}
                             height={500}
                             className="w-full h-full object-cover group-hover:scale-110 duration-200 rounded-t-lg"
-                        />) : <p>No Image</p>}
+                        />)}
                         {item?.isNew && (
                             <span className="absolute top-2 right-2 font-medium text-xs py-1 px-3 rounded-full bg-white group-hover:bg-orange-600 group-hover:text-white duration-200">
                                 New Arrival
@@ -56,15 +91,10 @@ const ProductsData = ({ item }: ItemProps) => {
                     <div className="flex items-center justify-between">
                         {/* add to cart button */}
                         <button
-                            onClick={() =>
-                                dispatch(addToCart(item)) &&
-                                toast.success(
-                                    `${item?.title.substring(0, 15)} added successfully!`
-                                )
-                            }
+                            onClick={handleAddToCart}
                             className="bg-orange-600 px-4 py-2 text-sm tracking-wide rounded-full text-slate-100 hover:bg-orange-800 hover:text-white duration-200"
                         >
-                            add to cart
+                            Add to cart
                         </button>
                         {/* star icons */}
                         <div className="flex items-center gap-x-1">{startArray}</div>

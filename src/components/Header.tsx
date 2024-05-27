@@ -20,16 +20,12 @@ const Header = () => {
   const { productData, orderData } = useSelector(
     (state: StateProps) => state.shopping
   );
-  console.log(orderData)
+  console.log(productData, "product data")
 
   useEffect(() => {
     if (session) {
       dispatch(
-        addUser({
-          name: session?.user?.name,
-          email: session?.user?.email,
-          image: session?.user?.image,
-        })
+        addUser(session?.user)
       );
     } else {
       dispatch(deleteUser());

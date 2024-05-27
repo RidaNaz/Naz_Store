@@ -11,7 +11,6 @@ import Container from "./Container";
 import Link from "next/link";
 import Image from "next/image";
 import payment from "@/images/payment.png";
-import { signIn } from "next-auth/react";
 
 const Footer = () => {
   return (

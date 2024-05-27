@@ -2,13 +2,50 @@
 
 import Container from "@/components/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { StateProps } from "../../type";
+import { ItemProps, StateProps } from "../../type";
 import CartItem from "@/components/CartItem";
-import { resetCart } from "@/redux/shoppingSlice";
+import { resetCart} from "@/redux/shoppingSlice";
 import PaymentForm from "@/components/PaymentForm";
+import { Button } from "@/components/ui/button"
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { Product as IProduct} from "@/type"
 
 const CartPage = () => {
+
+const { userInfo }: any = useSelector(
+        (state: StateProps) => state.shopping
+    );
+
+  const handleResetCart = async () => {
+    try {
+      const res = await fetch("/api/postgres", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: userInfo ? userInfo.unique_id : "Anonymous", 
+        }),
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        console.error("Error response from server:", error);
+        throw new Error(error.message || "Failed to reset cart.");
+      }
+
+      const result = await res.json();
+      console.log("Reset cart response:", result);
+
+      dispatch(resetCart());
+      toast.success("Cart reset successfully!");
+    } catch (error) {
+      console.error("Error resetting cart:", error);
+      toast.error(`An error occurred: ${(error as Error).message}`);
+    }
+  };
+
   const { productData } = useSelector((state: StateProps) => state?.shopping);
   const dispatch = useDispatch();
   return (
@@ -17,14 +54,17 @@ const CartPage = () => {
         <Container>
           <h2 className="font-bold text-5xl -mt-8 mb-2 font-logo text-orange-600">Cart</h2>
           <div className="flex flex-col gap-5">
-            <CartItem />
+          {productData.map((product: IProduct) => (
+                <CartItem key={product.id} item={product} />
+            ))}
             <div className="flex items-center justify-end">
-              <button
-                onClick={() => dispatch(resetCart())}
+              <Button
+                variant="destructive"
+                onClick={handleResetCart}
                 className="bg-red-500 text-base font-semibold text-slate-100 py-2 px-6 hover:bg-red-700 hover:text-white duration-200"
               >
-                reset cart
-              </button>
+                Reset cart
+              </Button>
             </div>
             {/* Payment Form */}
             <PaymentForm />

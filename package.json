@@ -9,11 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
     "@reduxjs/toolkit": "^2.2.4",
     "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.41.1",
     "@stripe/stripe-js": "^3.4.0",
+    "@vercel/postgres": "^0.8.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.30.10",
     "framer-motion": "^11.1.9",
+    "lucide-react": "^0.378.0",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
     "next-sanity": "^7.1.4",
@@ -27,16 +33,21 @@
     "sanity": "^3.41.1",
     "slick-carousel": "^1.8.1",
     "stripe": "^15.6.0",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@next/env": "^14.2.3",
     "@types/is-hotkey": "^0.1.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-slick": "^0.23.13",
+    "drizzle-kit": "^0.21.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
+    "pg": "^8.11.5",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
