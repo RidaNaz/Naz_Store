@@ -1,6 +1,5 @@
 import { Product } from "@/type";
-import { createSlice } from "@reduxjs/toolkit";
-
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
   name: string
@@ -12,19 +11,26 @@ interface User {
 interface StoreState {
   productData: Product[];
   userInfo: null | User;
-  orderData: [];
+  orderData: any[];
+  cartData: Product[];
 }
 
 const initialState: StoreState = {
   productData: [],
   userInfo: null,
   orderData: [],
+  cartData: [],
 };
 
 export const shoppingSlice = createSlice({
   name: "shopping",
   initialState,
   reducers: {
+
+    setCartData: (state, action: PayloadAction<Product[]>) => {
+      state.productData = action.payload;
+    },
+
     addToCart: (state, action) => {
       const existingProduct = state.productData.find(
         (item: Product) => item.id === action.payload._id
@@ -71,9 +77,6 @@ export const shoppingSlice = createSlice({
     resetOrder: (state) => {
       state.orderData = [];
     },
-    // setCartData: (state, action) => {
-    //   state.productData = action.payload;
-    // },
   },
 });
 
@@ -87,6 +90,6 @@ export const {
   deleteUser,
   saveOrder,
   resetOrder,
-  // setCartData,
+  setCartData,
 } = shoppingSlice.actions;
 export default shoppingSlice.reducer;

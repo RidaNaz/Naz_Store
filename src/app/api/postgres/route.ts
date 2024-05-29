@@ -1,42 +1,22 @@
 import { cartTable, db } from "@/lib/drizzle";
 import { NextRequest, NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm"
-import { useSelector } from "react-redux";
-import { StateProps } from "@/type";
 
 export async function GET(req: NextRequest) {
     let url = req.nextUrl.searchParams;
-    const { userInfo }: any = useSelector(
-        (state: StateProps) => state.shopping
-    );
-
+    console.log ("...url",url)
+    
     try {
-        if (url.has(userInfo.unique_id)) {
-            let allCartData = await db.select().from(cartTable).where(eq(cartTable.user_id, (url.get(userInfo.unique_id) as string)));
+        if (url.has("user_id")) {
+            let allCartData = await db.select().from(cartTable).where(eq(cartTable.user_id, (url.get("user_id") as string)));
             return NextResponse.json({ allCartData })
         }
+        
     } catch (error) {
         console.log("error : ", (error as { message: string }).message)
         return NextResponse.json({ error })
     };
 };
-
-// export async function GET(req: NextRequest) {
-//     // let url = req.nextUrl.searchParams;
-//     const { userInfo }: any = useSelector(
-//         (state: StateProps) => state.shopping
-//     );
-
-//     try {
-//         const req = await request.json();
-//             let allCartData = await db.select().from(cartTable).where(eq(cartTable.user_id, req.user_id))
-//             return NextResponse.json({ allCartData })
-        
-//     } catch (error) {
-//         console.log("error : ", (error as { message: string }).message)
-//         return NextResponse.json({ error })
-//     };
-// };
 
 export async function POST(request: NextRequest) {
     const req = await request.json()

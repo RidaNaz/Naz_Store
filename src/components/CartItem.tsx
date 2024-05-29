@@ -46,7 +46,6 @@ const CartItem = ({ item }: any) => {
             }
 
             const result = await res.json();
-            console.log
             console.log("Reset cart response:", result);
 
             dispatch(deleteProduct(item?.id));

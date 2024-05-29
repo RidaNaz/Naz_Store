@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/shoppingSlice";
 import toast, { Toaster } from "react-hot-toast";
 import { StateProps } from "@/type";
-import { ItemProps } from "../type";
 
 const SingleProduct = ({ product }: any) => {
   const dispatch = useDispatch();

@@ -2,20 +2,51 @@
 
 import Container from "@/components/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { ItemProps, StateProps } from "../../type";
+import { StateProps } from "../../type";
 import CartItem from "@/components/CartItem";
-import { resetCart} from "@/redux/shoppingSlice";
+import { resetCart, setCartData } from "@/redux/shoppingSlice";
 import PaymentForm from "@/components/PaymentForm";
 import { Button } from "@/components/ui/button"
 import Link from "next/link";
 import toast from "react-hot-toast";
-import { Product as IProduct} from "@/type"
+import { Product as IProduct } from "@/type"
+import { useEffect, useState } from "react";
+import { getSingleProduct } from "@/helpers";
 
 const CartPage = () => {
+  const dispatch = useDispatch();
+  const { userInfo }: any = useSelector(
+    (state: StateProps) => state.shopping
+  );
 
-const { userInfo }: any = useSelector(
-        (state: StateProps) => state.shopping
-    );
+  const cartData = useSelector((state: StateProps) => state.shopping.productData);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const response = await fetch(`/api/postgres?user_id=${userInfo ? userInfo.unique_id : "Anonymous"}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch cart data");
+        }
+        const data = await response.json();
+        const cartProduct = await data.allCartData.map(async (item: any) => await getSingleProduct(Number(item.product_id)));
+
+        const cartProducts = await Promise.all(cartProduct);
+        
+        const combinedData = data.allCartData.map((cartItem: any, index: number) => ({
+          ...cartProducts[index],
+          quantity: cartItem.quantity
+        }));
+        dispatch(setCartData(combinedData));
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
+
+    if (userInfo) {
+      fetchCartData();
+    }
+  }, [userInfo, dispatch]);
 
   const handleResetCart = async () => {
     try {
@@ -25,7 +56,7 @@ const { userInfo }: any = useSelector(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id: userInfo ? userInfo.unique_id : "Anonymous", 
+          user_id: userInfo ? userInfo.unique_id : "Anonymous",
         }),
       });
 
@@ -47,15 +78,15 @@ const { userInfo }: any = useSelector(
   };
 
   const { productData } = useSelector((state: StateProps) => state?.shopping);
-  const dispatch = useDispatch();
   return (
     <Container>
-      {productData.length > 0 ? (
+      {cartData.length > 0 ? (  
+      
         <Container>
           <h2 className="font-bold text-5xl -mt-8 mb-2 font-logo text-orange-600">Cart</h2>
           <div className="flex flex-col gap-5">
-          {productData.map((product: IProduct) => (
-                <CartItem key={product.id} item={product} />
+            {cartData.map((product: IProduct) => (   
+              <CartItem key={product.id} item={product} />
             ))}
             <div className="flex items-center justify-end">
               <Button

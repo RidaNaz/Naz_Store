@@ -5,8 +5,6 @@ import Layout from "@/components/Layout";
 import "slick-carousel/slick/slick.css";
 import Footer from "@/components/Footer";
 
-// const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
   title: "Naz Store",
   description: "An E-Commerce website.",
