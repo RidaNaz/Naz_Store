@@ -20,7 +20,6 @@ const Header = () => {
   const { productData, orderData } = useSelector(
     (state: StateProps) => state.shopping
   );
-  console.log(productData, "product data")
 
   useEffect(() => {
     if (session) {
@@ -104,7 +103,6 @@ const Header = () => {
             className="headerDiv px-1 gap-x-1 cursor-pointer text-white hover:text-darkText bg-orange-600 hover:bg-white"
           >
             <FiLogOut className="text-sm" />
-            {/* <p className="text-sm font-semibold text-white hover:text-darkText">Logout</p> */}
           </div>
         )}
       </Container>

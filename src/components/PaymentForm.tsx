@@ -8,12 +8,16 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useSession } from "next-auth/react";
 import { resetCart, saveOrder } from "@/redux/shoppingSlice";
 import { Button } from "./ui/button";
+import toast from "react-hot-toast";
 
 const PaymentForm = () => {
+  const { productData } = useSelector((state: StateProps) => state?.shopping);
   const dispatch = useDispatch();
-  const { productData, userInfo } = useSelector(
-    (state: StateProps) => state?.shopping
+
+  const { userInfo }: any = useSelector(
+      (state: StateProps) => state.shopping
   );
+
   const [totalAmt, setTotalAmt] = useState(0);
   useEffect(() => {
     let amt = 0;
@@ -24,6 +28,35 @@ const PaymentForm = () => {
     }});
     setTotalAmt(amt);
   }, [productData]);
+
+  const handleResetCart = async () => {
+    try {
+      const res = await fetch("/api/postgres", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: userInfo ? userInfo.unique_id : "Anonymous",
+        }),
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        console.error("Error response from server:", error);
+        throw new Error(error.message || "Failed to reset cart.");
+      }
+
+      const result = await res.json();
+      console.log("Reset cart response:", result);
+
+      dispatch(resetCart());
+      toast.success("Cart reset successfully!");
+    } catch (error) {
+      console.error("Error resetting cart:", error);
+      toast.error(`An error occurred: ${(error as Error).message}`);
+    }
+  };
 
   // =============  Stripe Payment Start here ==============
   const stripePromise = loadStripe(
@@ -45,7 +78,8 @@ const PaymentForm = () => {
     if (response.ok) {
       await dispatch(saveOrder({ order: productData, id: data.id }));
       stripe?.redirectToCheckout({ sessionId: data.id });
-      dispatch(resetCart());
+      handleResetCart()
+      // dispatch(resetCart());
     } else {
       throw new Error("Failed to create Stripe Payment");
     }
