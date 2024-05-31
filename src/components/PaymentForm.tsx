@@ -79,7 +79,7 @@ const PaymentForm = () => {
       await dispatch(saveOrder({ order: productData, id: data.id }));
       stripe?.redirectToCheckout({ sessionId: data.id });
       handleResetCart()
-      // dispatch(resetCart());
+      dispatch(resetCart());
     } else {
       throw new Error("Failed to create Stripe Payment");
     }
