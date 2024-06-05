@@ -2,20 +2,51 @@
 
 import Image from "next/image";
 import { ItemProps, StateProps } from "../type";
-import { calculatePercentage } from "@/helpers";
+import { calculatePercentage, getSingleProduct } from "@/helpers";
 import FormattedPrice from "./FormattedPrice";
 import { IoIosStar } from "react-icons/io";
 import Link from "next/link";
 import { urlForImage } from "../../sanity/lib/image";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "@/redux/shoppingSlice";
+import { addToCart, setCartData } from "@/redux/shoppingSlice";
 import toast, { Toaster } from "react-hot-toast";
 import { setUserId } from "@/redux/userSlice";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 const ProductsData = ({ item }: ItemProps) => {
     const dispatch = useDispatch();
     const { data: session } = useSession();
+  const { userInfo }: any = useSelector(
+    (state: StateProps) => state.shopping
+  );
+
+  useEffect(() => {
+      const fetchCartData = async () => {
+        try {
+          const response = await fetch(`/api/postgres?user_id=${userInfo ? userInfo.unique_id : "Anonymous"}`);
+          if (!response.ok) {
+            throw new Error("Failed to fetch cart data");
+          }
+          const data = await response.json();
+          const cartProduct = await data.allCartData.map(async (item: any) => await getSingleProduct(Number(item.product_id)));
+  
+          const cartProducts = await Promise.all(cartProduct);
+          
+          const combinedData = data.allCartData.map((cartItem: any, index: number) => ({
+            ...cartProducts[index],
+            quantity: cartItem.quantity
+          }));
+          dispatch(setCartData(combinedData));
+        } catch (error) {
+          console.error("Error fetching cart data:", error);
+        }
+      };
+  
+      if (userInfo) {
+        fetchCartData();
+      }
+    }, [userInfo, dispatch]);
 
     const startArray = Array.from({ length: item?.rating }, (_, index) => (
         <span key={index} className="text-yellow-400">
@@ -23,9 +54,7 @@ const ProductsData = ({ item }: ItemProps) => {
         </span>
     ));
 
-    const { userInfo }: any = useSelector(
-        (state: StateProps) => state.shopping
-    );
+
     const handleAddToCart = async () => {
         try {
             const res = await fetch("/api/postgres", {
