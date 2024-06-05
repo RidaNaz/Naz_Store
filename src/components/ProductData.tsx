@@ -10,7 +10,6 @@ import { urlForImage } from "../../sanity/lib/image";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, setCartData } from "@/redux/shoppingSlice";
 import toast, { Toaster } from "react-hot-toast";
-import { setUserId } from "@/redux/userSlice";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
@@ -65,13 +64,14 @@ const ProductsData = ({ item }: ItemProps) => {
                 body: JSON.stringify({
                     product_id: item.id, 
                     user_id: userInfo ? userInfo.unique_id : "Anonymous",
+                    quantity: 1  // Default quantity to add
                 })
             });
             const result = await res.json();
             console.log(result);
 
                 if (res.ok) {
-                    dispatch(addToCart(item));
+                    dispatch(addToCart({ ...item, quantity: 1 }));
                     toast.success(`${item?.title.substring(0, 15)} added successfully!`);
                 } else {
                     toast.error("Failed to add item to cart.");

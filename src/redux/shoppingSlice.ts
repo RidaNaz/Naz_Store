@@ -33,12 +33,12 @@ export const shoppingSlice = createSlice({
 
     addToCart: (state, action) => {
       const existingProduct = state.productData.find(
-        (item: Product) => item.id === action.payload._id
+        (item: Product) => item.id === action.payload.id
       );
       if (existingProduct) {
-        existingProduct.quantity += action.payload.quantity;
+        existingProduct.quantity += action.payload.quantity || 1;
       } else {
-        state.productData.push(action.payload);
+        state.productData.push({ ...action.payload, quantity: action.payload.quantity || 1 });
       }
     },
     increaseQuantity: (state, action) => {

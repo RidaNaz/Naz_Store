@@ -21,33 +21,6 @@ const CartPage = () => {
 
   const cartData = useSelector((state: StateProps) => state.shopping.productData);
 
-  // useEffect(() => {
-  //   const fetchCartData = async () => {
-  //     try {
-  //       const response = await fetch(`/api/postgres?user_id=${userInfo ? userInfo.unique_id : "Anonymous"}`);
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch cart data");
-  //       }
-  //       const data = await response.json();
-  //       const cartProduct = await data.allCartData.map(async (item: any) => await getSingleProduct(Number(item.product_id)));
-
-  //       const cartProducts = await Promise.all(cartProduct);
-        
-  //       const combinedData = data.allCartData.map((cartItem: any, index: number) => ({
-  //         ...cartProducts[index],
-  //         quantity: cartItem.quantity
-  //       }));
-  //       dispatch(setCartData(combinedData));
-  //     } catch (error) {
-  //       console.error("Error fetching cart data:", error);
-  //     }
-  //   };
-
-  //   if (userInfo) {
-  //     fetchCartData();
-  //   }
-  // }, [userInfo, dispatch]);
-
   const handleResetCart = async () => {
     try {
       const res = await fetch("/api/postgres", {

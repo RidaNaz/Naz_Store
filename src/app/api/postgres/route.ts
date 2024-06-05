@@ -22,12 +22,35 @@ export async function POST(request: NextRequest) {
     const req = await request.json()
 
     try {
-        const res = await db.insert(cartTable).values({
-            product_id: req.product_id,
-            quantity: req.quantity || 1,
-            user_id: req.user_id,
-        }).returning()
-        return NextResponse.json({ res })
+        // Check if the product already exists in the cart for the user
+        const existingCartItem = await db.select()
+        .from(cartTable)
+        .where(and(
+            eq(cartTable.user_id, req.user_id),
+            eq(cartTable.product_id, req.product_id)
+        ))
+        .then(result => result[0]); // Get the first item from the result array
+
+        let res;
+        if (existingCartItem) {
+            // Update the quantity if the product already exists
+            res = await db.update(cartTable)
+                .set({ quantity: existingCartItem.quantity + (req.quantity || 1) })
+                .where(and(
+                    eq(cartTable.user_id, req.user_id),
+                    eq(cartTable.product_id, req.product_id)
+                ))
+                .returning();
+        } else {
+            // Insert a new entry if the product doesn't exist
+            res = await db.insert(cartTable).values({
+                product_id: req.product_id,
+                quantity: req.quantity || 1,
+                user_id: req.user_id,
+            }).returning();
+        }
+
+        return NextResponse.json({ res });
 
     } catch (error) {
         console.log("error : ", (error as { message: string }).message)

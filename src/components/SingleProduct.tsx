@@ -25,13 +25,14 @@ const SingleProduct = ({ product }: any) => {
         body: JSON.stringify({
           product_id: product?.id,
           user_id: userInfo ? userInfo.unique_id : "Anonymous",
+          quantity: 1  // Default quantity to add
         })
       });
       const result = await res.json();
       console.log(result);
 
       if (res.ok) {
-        dispatch(addToCart(product));
+        dispatch(addToCart({ ...product, quantity: 1 }));
         toast.success(`${product?.title.substring(0, 15)} added successfully!`);
       } else {
         toast.error("Failed to add item to cart.");
