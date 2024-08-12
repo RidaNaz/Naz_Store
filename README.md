@@ -23,3 +23,4 @@
 23. npm install @radix-ui/react-slot
 24. npm i -D drizzle-kit
 25. npm add -D pg @next/env
+26. npm i sharp

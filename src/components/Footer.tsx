@@ -58,7 +58,7 @@ const Footer = () => {
         <div>
           <p className="text-xl font-bold underline mb-4">Projects</p>
           <ul className="text-sm font-light mt-2 flex flex-col gap-y-2">
-            <Link href="https://rida-portfolio-virid.vercel.app/" target="_blank">
+            <Link href="https://ridanaz-portfolio-virid.vercel.app/" target="_blank">
             <li className="flex flex-col">
               <span className="text-lg font-semibold text-slate hover:text-orange-600 cursor-pointer duration-200">
               Portfolio Website
